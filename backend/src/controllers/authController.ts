@@ -40,17 +40,17 @@ export async function login(req:Request,res:Response){
     const {email,password} = validateRegisterInput(req.body)
     const user = await UserModel.findOne({email}).select("+passwordHash")
     if(!user|| !user.passwordHash){
-        throw AppError.unauthorized("Invalid email or password")
+        throw new Error("Invalid email or password")
 
     }
     //prevent local login from OAUth-onlu user nb to change this later on toallow both
     if(user.provider !== "local"){
-        throw AppError.badRequest("this account uses Google sign-in.Please loginwith Google")
+        throw new Error("this account uses Google sign-in.Please loginwith Google")
     }
     //compare passwords
     const isMatch = await comparePasswords(password,user.passwordHash)
     if(!isMatch){
-        throw AppError.unauthorized("Invalid emailor password");
+        throw new Error("Invalid email or password");
     }
     //issue jwt
     const token = signJWT({

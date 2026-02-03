@@ -4,6 +4,13 @@ export type JWTUserPayload={
     uid:string
     email?:string
     dispalayName?:string
-    [keky:string]:unknown
+    role:Role
+    [key:string]:unknown
 }
+export const ROLES ={
+    USER:"user",
+    ADMIN:'admin',
+    MODERATOR:"moderator"
+} as const
+export type Role = typeof ROLES[keyof typeof ROLES]
 export type AuthenticatedRequest = Request&{user?:JWTUserPayload}

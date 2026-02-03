@@ -7,10 +7,7 @@ import createLogger from "../utils/logger.js"
 const log = createLogger("AUTHENTICATE")
 const authenticate:RequestHandler=async(req,_res,next)=>{
     const requestIdHeader = req.headers["x-request-id"];
-const requestId = Array.isArray(requestIdHeader) ? requestIdHeader[0] : requestIdHeader;
-
-    
-        
+    const requestId = Array.isArray(requestIdHeader) ? requestIdHeader[0] : requestIdHeader;
         log.highlight("=== AUTHENTICATE MIDDLEWARE DEBUG START ===", { requestId, context: "authenticate" });
         log.debug("Request method", { requestId, context: "authenticate", data: { method: req.method, url: req.url } });
         log.debug("Request body", { requestId, context: "authenticate", data: req.body });
