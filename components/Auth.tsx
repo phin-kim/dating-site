@@ -10,23 +10,7 @@ import {
   Calendar,
   Shield,
 } from "lucide-react";
-
-type FormMode = "login" | "signup";
-
-interface SignupData {
-  name: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  cardNumber: string;
-  expiry: string;
-  cvv: string;
-}
-
-interface LoginData {
-  email: string;
-  password: string;
-}
+import { FormMode,LoginData,SignupData } from "../frontendTypes/Auth";
 
 export default function LoveAuthForm() {
   const [mode, setMode] = useState<FormMode>("login");
@@ -86,7 +70,7 @@ export default function LoveAuthForm() {
   };
 
   return (
-    <div className="min-h-screen font-nunita relative overflow-hidden bg-linear-to-br from-rose-50 via-pink-50 to-red-50 flex items-center justify-center p-4 ">
+    <div className="relative flex items-center justify-center min-h-screen p-4 overflow-hidden font-nunita bg-linear-to-br from-rose-50 via-pink-50 to-red-50 ">
       {/* Animated floating hearts background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {floatingHearts.map((heart) => (
@@ -117,9 +101,9 @@ export default function LoveAuthForm() {
       </div>
 
       {/* Decorative linear orbs */}
-      <div className="absolute top-20 left-20 w-96 h-96 bg-rose-300/30 rounded-full blur-3xl animate-pulse" />
+      <div className="absolute rounded-full top-20 left-20 w-96 h-96 bg-rose-300/30 blur-3xl animate-pulse" />
       <div
-        className="absolute bottom-20 right-20 w-80 h-80 bg-pink-400/20 rounded-full blur-3xl animate-pulse"
+        className="absolute rounded-full bottom-20 right-20 w-80 h-80 bg-pink-400/20 blur-3xl animate-pulse"
         style={{ animationDelay: "1s" }}
       />
 
@@ -131,7 +115,7 @@ export default function LoveAuthForm() {
       >
         {/* Header */}
         <motion.div
-          className="text-center mb-8"
+          className="mb-8 text-center"
           initial={{ scale: 0.8 }}
           animate={{ scale: 1 }}
           transition={{ type: "spring", bounce: 0.5 }}
@@ -150,10 +134,10 @@ export default function LoveAuthForm() {
           >
             <Heart className="w-16 h-16 text-rose-500 fill-rose-500 drop-shadow-lg" />
           </motion.div>
-          <h1 className="text-5xl font-bold font-dancing text-transparent bg-clip-text bg-linear-to-r from-rose-600 via-pink-600 to-red-600 mb-2">
+          <h1 className="mb-2 text-5xl font-bold text-transparent font-dancing bg-clip-text bg-linear-to-r from-rose-600 via-pink-600 to-red-600">
             Love Connect
           </h1>
-          <p className="text-rose-600/80 text-lg italic">
+          <p className="text-lg italic text-rose-600/80">
             Where hearts find their match
           </p>
         </motion.div>
@@ -161,7 +145,7 @@ export default function LoveAuthForm() {
         {/* Form card */}
         <motion.div
           layout
-          className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 border-2 border-rose-200/50"
+          className="p-8 border-2 shadow-2xl bg-white/80 backdrop-blur-xl rounded-3xl border-rose-200/50"
         >
           {/* Mode Toggle */}
           <div className="flex gap-2 mb-8 bg-rose-100/50 p-1.5 rounded-2xl">
@@ -170,12 +154,12 @@ export default function LoveAuthForm() {
                 setMode("login");
                 setErrors([]);
               }}
-              className="relative flex-1 py-3 rounded-xl font-semibold transition-all duration-300 text-sm"
+              className="relative flex-1 py-3 text-sm font-semibold transition-all duration-300 rounded-xl"
             >
               {mode === "login" && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute inset-0 bg-linear-to-r from-rose-500 to-pink-500 rounded-xl shadow-lg"
+                  className="absolute inset-0 shadow-lg bg-linear-to-r from-rose-500 to-pink-500 rounded-xl"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
@@ -190,12 +174,12 @@ export default function LoveAuthForm() {
                 setMode("signup");
                 setErrors([]);
               }}
-              className="relative flex-1 py-3 rounded-xl font-semibold transition-all duration-300 text-sm"
+              className="relative flex-1 py-3 text-sm font-semibold transition-all duration-300 rounded-xl"
             >
               {mode === "signup" && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute inset-0 bg-linear-to-r from-rose-500 to-pink-500 rounded-xl shadow-lg"
+                  className="absolute inset-0 shadow-lg bg-linear-to-r from-rose-500 to-pink-500 rounded-xl"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                 />
               )}
@@ -214,10 +198,10 @@ export default function LoveAuthForm() {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mb-6 p-4 bg-red-50 border-l-4 border-red-400 rounded-lg"
+                className="p-4 mb-6 border-l-4 border-red-400 rounded-lg bg-red-50"
               >
                 {errors.map((error, idx) => (
-                  <p key={idx} className="text-red-700 text-sm font-medium">
+                  <p key={idx} className="text-sm font-medium text-red-700">
                     • {error}
                   </p>
                 ))}
@@ -237,11 +221,11 @@ export default function LoveAuthForm() {
                 className="space-y-5"
               >
                 <div className="group">
-                  <label className="block text-sm font-semibold text-rose-900 mb-2">
+                  <label className="block mb-2 text-sm font-semibold text-rose-900">
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-400 group-focus-within:text-rose-600 transition-colors" />
+                    <Mail className="absolute w-5 h-5 transition-colors -translate-y-1/2 left-4 top-1/2 text-rose-400 group-focus-within:text-rose-600" />
                     <input
                       type="email"
                       value={loginData.email}
@@ -255,11 +239,11 @@ export default function LoveAuthForm() {
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-semibold text-rose-900 mb-2">
+                  <label className="block mb-2 text-sm font-semibold text-rose-900">
                     Password
                   </label>
                   <div className="relative">
-                    <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-400 group-focus-within:text-rose-600 transition-colors" />
+                    <Lock className="absolute w-5 h-5 transition-colors -translate-y-1/2 left-4 top-1/2 text-rose-400 group-focus-within:text-rose-600" />
                     <input
                       type="password"
                       value={loginData.password}
@@ -278,13 +262,13 @@ export default function LoveAuthForm() {
                       type="checkbox"
                       className="w-4 h-4 accent-rose-500"
                     />
-                    <span className="text-rose-700 group-hover:text-rose-900 transition-colors">
+                    <span className="transition-colors text-rose-700 group-hover:text-rose-900">
                       Remember me
                     </span>
                   </label>
                   <button
                     type="button"
-                    className="text-rose-600 hover:text-rose-800 font-semibold transition-colors"
+                    className="font-semibold transition-colors text-rose-600 hover:text-rose-800"
                   >
                     Forgot password?
                   </button>
@@ -294,10 +278,10 @@ export default function LoveAuthForm() {
                   type="submit"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-4 bg-linear-to-r from-rose-500 via-pink-500 to-red-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group"
+                  className="flex items-center justify-center w-full gap-2 py-4 font-bold text-white transition-all duration-300 shadow-lg bg-linear-to-r from-rose-500 via-pink-500 to-red-500 rounded-xl hover:shadow-xl group"
                 >
                   <span>Sign In to Love</span>
-                  <Heart className="w-5 h-5 group-hover:fill-white transition-all" />
+                  <Heart className="w-5 h-5 transition-all group-hover:fill-white" />
                 </motion.button>
               </motion.form>
             ) : (
@@ -311,11 +295,11 @@ export default function LoveAuthForm() {
                 className="space-y-5"
               >
                 <div className="group">
-                  <label className="block text-sm font-semibold text-rose-900 mb-2">
+                  <label className="block mb-2 text-sm font-semibold text-rose-900">
                     Full Name
                   </label>
                   <div className="relative">
-                    <User className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-400 group-focus-within:text-rose-600 transition-colors" />
+                    <User className="absolute w-5 h-5 transition-colors -translate-y-1/2 left-4 top-1/2 text-rose-400 group-focus-within:text-rose-600" />
                     <input
                       type="text"
                       value={signupData.name}
@@ -329,11 +313,11 @@ export default function LoveAuthForm() {
                 </div>
 
                 <div className="group">
-                  <label className="block text-sm font-semibold text-rose-900 mb-2">
+                  <label className="block mb-2 text-sm font-semibold text-rose-900">
                     Email Address
                   </label>
                   <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-400 group-focus-within:text-rose-600 transition-colors" />
+                    <Mail className="absolute w-5 h-5 transition-colors -translate-y-1/2 left-4 top-1/2 text-rose-400 group-focus-within:text-rose-600" />
                     <input
                       type="email"
                       value={signupData.email}
@@ -348,11 +332,11 @@ export default function LoveAuthForm() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div className="group">
-                    <label className="block text-sm font-semibold text-rose-900 mb-2">
+                    <label className="block mb-2 text-sm font-semibold text-rose-900">
                       Password
                     </label>
                     <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-400 group-focus-within:text-rose-600 transition-colors" />
+                      <Lock className="absolute w-5 h-5 transition-colors -translate-y-1/2 left-4 top-1/2 text-rose-400 group-focus-within:text-rose-600" />
                       <input
                         type="password"
                         value={signupData.password}
@@ -369,11 +353,11 @@ export default function LoveAuthForm() {
                   </div>
 
                   <div className="group">
-                    <label className="block text-sm font-semibold text-rose-900 mb-2">
+                    <label className="block mb-2 text-sm font-semibold text-rose-900">
                       Confirm
                     </label>
                     <div className="relative">
-                      <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-400 group-focus-within:text-rose-600 transition-colors" />
+                      <Lock className="absolute w-5 h-5 transition-colors -translate-y-1/2 left-4 top-1/2 text-rose-400 group-focus-within:text-rose-600" />
                       <input
                         type="password"
                         value={signupData.confirmPassword}
@@ -393,7 +377,7 @@ export default function LoveAuthForm() {
                 {/* Payment Section */}
                 <div className="pt-4 border-t-2 border-rose-200/50">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-bold text-rose-900 flex items-center gap-2">
+                    <h3 className="flex items-center gap-2 text-lg font-bold text-rose-900">
                       <Shield className="w-5 h-5 text-rose-500" />
                       Payment Details
                     </h3>
@@ -403,11 +387,11 @@ export default function LoveAuthForm() {
                   </div>
 
                   <div className="group">
-                    <label className="block text-sm font-semibold text-rose-900 mb-2">
+                    <label className="block mb-2 text-sm font-semibold text-rose-900">
                       Card Number
                     </label>
                     <div className="relative">
-                      <CreditCard className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-400 group-focus-within:text-rose-600 transition-colors" />
+                      <CreditCard className="absolute w-5 h-5 transition-colors -translate-y-1/2 left-4 top-1/2 text-rose-400 group-focus-within:text-rose-600" />
                       <input
                         type="text"
                         maxLength={16}
@@ -426,11 +410,11 @@ export default function LoveAuthForm() {
 
                   <div className="grid grid-cols-2 gap-4 mt-4">
                     <div className="group">
-                      <label className="block text-sm font-semibold text-rose-900 mb-2">
+                      <label className="block mb-2 text-sm font-semibold text-rose-900">
                         Expiry Date
                       </label>
                       <div className="relative">
-                        <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-400 group-focus-within:text-rose-600 transition-colors" />
+                        <Calendar className="absolute w-5 h-5 transition-colors -translate-y-1/2 left-4 top-1/2 text-rose-400 group-focus-within:text-rose-600" />
                         <input
                           type="text"
                           maxLength={5}
@@ -448,11 +432,11 @@ export default function LoveAuthForm() {
                     </div>
 
                     <div className="group">
-                      <label className="block text-sm font-semibold text-rose-900 mb-2">
+                      <label className="block mb-2 text-sm font-semibold text-rose-900">
                         CVV
                       </label>
                       <div className="relative">
-                        <Shield className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-rose-400 group-focus-within:text-rose-600 transition-colors" />
+                        <Shield className="absolute w-5 h-5 transition-colors -translate-y-1/2 left-4 top-1/2 text-rose-400 group-focus-within:text-rose-600" />
                         <input
                           type="text"
                           maxLength={3}
@@ -475,13 +459,13 @@ export default function LoveAuthForm() {
                   type="submit"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full py-4 bg-linear-to-r from-rose-500 via-pink-500 to-red-500 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 group"
+                  className="flex items-center justify-center w-full gap-2 py-4 font-bold text-white transition-all duration-300 shadow-lg bg-linear-to-r from-rose-500 via-pink-500 to-red-500 rounded-xl hover:shadow-xl group"
                 >
                   <span>Join for $10</span>
-                  <Heart className="w-5 h-5 group-hover:fill-white transition-all" />
+                  <Heart className="w-5 h-5 transition-all group-hover:fill-white" />
                 </motion.button>
 
-                <p className="text-xs text-rose-600/70 text-center mt-4">
+                <p className="mt-4 text-xs text-center text-rose-600/70">
                   🔒 Secure payment • Cancel anytime • Your heart is safe with
                   us
                 </p>
@@ -495,7 +479,7 @@ export default function LoveAuthForm() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="text-center text-rose-600/60 text-sm mt-6"
+          className="mt-6 text-sm text-center text-rose-600/60"
         >
           Made with{" "}
           <Heart className="inline w-4 h-4 fill-rose-500 text-rose-500" /> for
