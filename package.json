@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.18",
+    "axios": "^1.13.4",
     "bcrypt": "^6.0.0",
     "chalk": "^5.6.2",
     "cors": "^2.8.6",
@@ -26,7 +27,8 @@
     "mongoose": "^9.1.5",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.1.18",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

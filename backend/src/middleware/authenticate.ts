@@ -12,9 +12,9 @@ const requestId = Array.isArray(requestIdHeader) ? requestIdHeader[0] : requestI
     
         
         log.highlight("=== AUTHENTICATE MIDDLEWARE DEBUG START ===", { requestId, context: "authenticate" });
-  log.debug("Request method", { requestId, context: "authenticate", data: { method: req.method, url: req.url } });
-  log.debug("Request body", { requestId, context: "authenticate", data: req.body });
-  log.debug("Content-Type", { requestId, context: "authenticate", data: { contentType: req.headers["content-type"] } });
+        log.debug("Request method", { requestId, context: "authenticate", data: { method: req.method, url: req.url } });
+        log.debug("Request body", { requestId, context: "authenticate", data: req.body });
+        log.debug("Content-Type", { requestId, context: "authenticate", data: { contentType: req.headers["content-type"] } });
 
 
     try {
