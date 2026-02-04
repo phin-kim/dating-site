@@ -1,12 +1,11 @@
-import LoveAuthForm from "../components/Auth"
+import LoveAuthForm from './components/Auth';
 
 function App() {
-
-  return (
-   <>
-   <LoveAuthForm/>
-   </>
-  )
+    return (
+        <>
+            <LoveAuthForm />
+        </>
+    );
 }
 
-export default App
+export default App;

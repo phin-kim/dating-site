@@ -1,33 +1,47 @@
-import AppError from "../middleware/AppError";
-export interface Input{
-    email:string;
-    password:string
+import AppError from '../middleware/AppError';
+import createLogger from '../utils/logger.js';
+import {
+    registerSchema,
+    loginSchema,
+    type RegisterInput,
+    type LoginInput,
+} from '../../../src/shared/Schema/validator.js';
+const log = createLogger('VALIDATOR');
+export interface Input {
+    email: string;
+    password: string;
 }
 
-export function validateRegisterInput(body:unknown):Input{
-    if(!body|| typeof body!== "object"){
-        throw AppError.validation("Invalid request body")
-    }
-    const {email,password} = body as Record<string,unknown>
-    if(typeof email !== "string"||!email.includes("@")){
-        throw AppError.validation("Invalid email")
-    }
-    if(typeof password !== "string"|| password.length <8){
-        throw AppError.validation("Password must be atleast 8 characters")
-    }
-    return {email,password}
-}
-export function validateLoginInput(body:unknown):Input{
-    if(!body ||typeof body !== "object"){
-        throw AppError.validation("Invalid request body")
+export function validateRegisterInput(body: unknown): RegisterInput {
+    const result = registerSchema.safeParse(body);
+    log.info('Results from validator', { context: 'validation', data: result });
 
+    if (!result.success) {
+        const message = result.error.issues
+            .map((issue) => issue.message)
+            .join(', ');
+        log.error('Error fro zod validator', {
+            context: 'ZODERROR',
+            data: { message },
+        });
+        throw AppError.validation(message);
     }
-    const {email,password} = body as Record<string,unknown>
-   if(typeof email !== "string"||!email.includes("@")){
-        throw AppError.validation("Invalid email")
+
+    return result.data;
+}
+export function validateLoginInput(body: unknown): LoginInput {
+    const result = loginSchema.safeParse(body);
+
+    if (!result.success) {
+        const message = result.error.issues
+            .map((issue) => issue.message)
+            .join(', ');
+        log.error('Error fro zod validator', {
+            context: 'ZODERROR',
+            data: { message },
+        });
+        throw AppError.validation(message);
     }
-    if(typeof password !== "string"|| password.length === 0){
-        throw AppError.validation("Password required")
-    }
-    return {email,password}
+
+    return result.data;
 }
