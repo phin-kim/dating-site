@@ -1,9 +1,10 @@
 
-import type { Request,Response } from "express";
+import type {  Request,Response } from "express";
+import "dotenv/config"
 import {UserModel} from "../Schema/UsersSchema.js"
 import AppError from "../middleware/AppError.js";
 import { comparePasswords, hashPassword } from "../utils/password.js";
-import { signJWT } from "../utils/jwt.js";
+import { hashToken, signAccessToken, signRefreshToken } from "../utils/jwt.js";
 import { validateRegisterInput } from "../config/authValidator.js";
 export async function register(req:Request,res:Response){
     //validate input
@@ -20,9 +21,8 @@ export async function register(req:Request,res:Response){
         email,passwordHash,provider:"local"
     })
     //issue jwt
-    const token = signJWT({
-        uid:user.id,
-        email:user.email,
+    const token = signAccessToken({
+        uid:user._id.toString(),
         role:user.role
     })
     res.status(201).json({
@@ -45,7 +45,7 @@ export async function login(req:Request,res:Response){
     }
     //prevent local login from OAUth-onlu user nb to change this later on toallow both
     if(user.provider !== "local"){
-        throw new Error("this account uses Google sign-in.Please loginwith Google")
+        throw new Error("This account uses Google sign-in.Please loginwith Google")
     }
     //compare passwords
     const isMatch = await comparePasswords(password,user.passwordHash)
@@ -53,15 +53,34 @@ export async function login(req:Request,res:Response){
         throw new Error("Invalid email or password");
     }
     //issue jwt
-    const token = signJWT({
-        uid:user.id,
-        email:user.email,
+    const accessToken = signAccessToken({
+        uid:user._id.toString(),
         role:user.role
     })
+    const refreshToken = signRefreshToken({
+        uid:user._id.toString(),
+        role:user.role
+    })
+    const refreshTokenHash = hashToken(refreshToken);
+    user.refreshTokens.push({
+        tokenHash:refreshTokenHash,
+        createdAt:new Date(),
+        expiresAt:new Date(Date.now()+ 7*24*60*60*1000)
+    })
+    await user.save()
+    res.cookie("refreshToken",refreshToken,{
+        httpOnly:true,//js cannot access it
+        secure:process.env.NODE_ENV === "production",//HTTPS only in production
+        sameSite:"strict",// prevents CSRF
+        path:"/auth/refresh",
+        maxAge: 7 * 24 * 60 * 60 * 1000
+
+    })
+    //refreshtokens must be protected from XSS attacks 
 
     res.status(200).json({
         success:true,
-        token,
+        accessToken,
         user:{
             id:user.id,
             email:user.email,

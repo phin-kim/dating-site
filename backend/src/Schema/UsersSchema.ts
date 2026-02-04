@@ -1,5 +1,10 @@
 import mongoose,{Schema} from "mongoose"
 import { IUser } from "../../backendTypes/Schema"
+const refreshTokenSchema =new Schema({
+    tokenHash: {type:String,required:true},
+    createdAt:{type:Date,default:Date.now},
+    expiresAt:{type:Date,required:true},
+},{_id:false})
 const UserSchema = new Schema<IUser>({
     email:{
         type:String,
@@ -24,6 +29,11 @@ const UserSchema = new Schema<IUser>({
         enum:["user","admin","moderator"],
         default:"user"
     },
+    refreshTokens:{
+        type:[refreshTokenSchema],
+        default:[]//strore in an array as user might login from different devices
+    },
+    
     isVerified:{
         type:Boolean,
         default:false

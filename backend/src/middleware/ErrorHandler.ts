@@ -3,7 +3,7 @@ import type{Request,Response,NextFunction} from "express"
 import AppError from "./AppError.js"
 import {MongoServerError} from "mongodb"
 import type { ErrorType } from "../../backendTypes/ErrorHandler.js"
-import crypto from "crypto"
+import crypto from "node:crypto"
 const errorHandler=(err:ErrorType,
     req:Request,
     res:Response,

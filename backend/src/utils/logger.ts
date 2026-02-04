@@ -1,5 +1,5 @@
 import chalk from 'chalk';
-import crypto from 'crypto';
+import crypto from 'node:crypto';
 
 type LogLevel = 'info' | 'warn' | 'error' | 'debug' | 'highlight';
 

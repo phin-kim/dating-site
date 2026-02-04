@@ -7,6 +7,10 @@ export type JWTUserPayload={
     role:Role
     [key:string]:unknown
 }
+export type JWTTokenPayload={
+    uid:string,
+    role:string
+}
 export const ROLES ={
     USER:"user",
     ADMIN:'admin',
