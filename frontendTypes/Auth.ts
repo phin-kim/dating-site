@@ -1,7 +1,7 @@
 export type FormMode = 'login' | 'signup';
 
 export interface SignupData {
-    name: string;
+    displayName: string;
     email: string;
     password: string;
     confirmPassword: string;
@@ -15,6 +15,7 @@ export interface LoginData {
     password: string;
 }
 export type User = {
+    displayName: string;
     id: string;
     email: string;
     role: 'user' | 'admin' | 'moderator';

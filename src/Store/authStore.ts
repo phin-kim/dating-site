@@ -6,7 +6,11 @@ type AuthState = {
     accessToken: string | null;
     isAuthenticated: boolean;
 
-    register: (email: string, password: string) => Promise<void>;
+    register: (
+        displayName: string,
+        email: string,
+        password: string
+    ) => Promise<void>;
     login: (email: string, password: string) => Promise<void>;
     refresh: () => Promise<void>;
     logout: () => Promise<void>;
@@ -15,8 +19,9 @@ export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     accessToken: null,
     isAuthenticated: false,
-    register: async (email, password) => {
+    register: async (displayName, email, password) => {
         const res = await api.post<AuthResponse>('/auth/register', {
+            displayName,
             email,
             password,
         });

@@ -1,9 +1,9 @@
 import AppError from '../middleware/AppError';
 import createLogger from '../utils/logger.js';
 import {
-    registerSchema,
+    registerBaseSchema,
     loginSchema,
-    type RegisterInput,
+    type RegisterRequestInput,
     type LoginInput,
 } from '../../../src/shared/Schema/validator.js';
 const log = createLogger('VALIDATOR');
@@ -12,8 +12,8 @@ export interface Input {
     password: string;
 }
 
-export function validateRegisterInput(body: unknown): RegisterInput {
-    const result = registerSchema.safeParse(body);
+export function validateRegisterInput(body: unknown): RegisterRequestInput {
+    const result = registerBaseSchema.safeParse(body);
     log.info('Results from validator', { context: 'validation', data: result });
 
     if (!result.success) {
