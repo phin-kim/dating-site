@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
+import cookieParser from 'cookie-parser';
 import createLogger from './src/utils/logger.js';
 import errorHandler from './src/middleware/ErrorHandler.js';
 import { authRoute } from './src/routes/auth.js';
@@ -8,9 +9,18 @@ import { connectDatabases } from './src/config/DB.js';
 import normalizeError from './src/utils/normalizeError.js';
 const log = createLogger('SERVER');
 const app = express();
-app.use(cors());
-app.use(express.json());
+const cookieSecret = process.env.COOKIE_SECRET;
 const PORT = process.env.PORT;
+
+app.use(
+    cors({
+        origin: ['http://localhost:5173'],
+        credentials: true,
+        methods: ['GET', 'POST', 'PATCH', 'DELETE', 'PUT'],
+    })
+);
+app.use(express.json());
+app.use(cookieParser(cookieSecret));
 app.get('/healtchecker', (req, res) => {
     res.json('Heallth checker ');
 });

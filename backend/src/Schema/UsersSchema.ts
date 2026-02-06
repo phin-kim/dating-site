@@ -1,5 +1,6 @@
-import mongoose, { Schema } from 'mongoose';
+import { Schema } from 'mongoose';
 import { IUser } from '../../backendTypes/Schema';
+import { UserConnection } from '../config/DB';
 const refreshTokenSchema = new Schema(
     {
         tokenHash: { type: String, required: true },
@@ -49,4 +50,4 @@ const UserSchema = new Schema<IUser>(
     },
     { timestamps: true }
 );
-export const UserModel = mongoose.model<IUser>('User', UserSchema);
+export const UserModel = UserConnection.model<IUser>('User', UserSchema);

@@ -8,7 +8,7 @@ const USERS = isProd
       (() => {
           throw new Error('Missing USER_MONGO_URI in production');
       })()
-    : 'mongodb://127.0.0.1:27017/userDatabase';
+    : 'mongodb://127.0.0.1:27017/LCUserDatabase';
 export const UserConnection = mongoose.createConnection(USERS);
 export const connectDatabases = async (): Promise<void> => {
     try {

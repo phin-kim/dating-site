@@ -1,6 +1,8 @@
 import { create } from 'zustand';
 import api, { setAccessToken } from '../Api/api';
+import createClientLogger from '../utils/clientLoger';
 import type { User, AuthResponse } from '../../frontendTypes/Auth';
+const log = createClientLogger('AUTH STORE');
 type AuthState = {
     user: User | null;
     accessToken: string | null;
@@ -42,13 +44,24 @@ export const useAuthStore = create<AuthState>((set) => ({
         });
     },
     refresh: async () => {
-        const res = await api.post('/auth/refresh');
-        setAccessToken(res.data.accessToken);
-        set({
-            user: res.data.user,
-            accessToken: res.data.accessToken,
-            isAuthenticated: true,
-        });
+        try {
+            const res = await api.post('/auth/refresh');
+            setAccessToken(res.data.accessToken);
+            set({
+                user: res.data.user,
+                accessToken: res.data.accessToken,
+                isAuthenticated: true,
+            });
+        } catch (error) {
+            //refresh failed useer stays logged out
+            setAccessToken(null);
+            set({
+                user: null,
+                accessToken: null,
+                isAuthenticated: false,
+            });
+            log.error('Error in refreshing', { data: error });
+        }
     },
     logout: async () => {
         await api.post('/auth/logout');
