@@ -189,7 +189,7 @@ const LoginForm = () => {
     const handleLogin = async (data: LoginInput) => {
         try {
             await loginUser(data.email, data.password);
-            navigate('/dashboard');
+            navigate('/');
         } catch (error) {
             handleApiError(error, setError);
         }
@@ -293,7 +293,7 @@ const RegisterForm = () => {
     const handleRegister = async (data: RegisterFormInput) => {
         try {
             await registerUser(data.displayName, data.email, data.password);
-            navigate('/dashboard');
+            navigate('/');
         } catch (error: unknown) {
             handleApiError(error, setError);
         }

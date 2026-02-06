@@ -7,7 +7,7 @@ type AuthState = {
     user: User | null;
     accessToken: string | null;
     isAuthenticated: boolean;
-
+    isLoading: boolean;
     register: (
         displayName: string,
         email: string,
@@ -21,29 +21,47 @@ export const useAuthStore = create<AuthState>((set) => ({
     user: null,
     accessToken: null,
     isAuthenticated: false,
+    isLoading: false,
     register: async (displayName, email, password) => {
-        const res = await api.post<AuthResponse>('/auth/register', {
-            displayName,
-            email,
-            password,
-        });
-        setAccessToken(res.data.accessToken);
-        set({
-            user: res.data.user,
-            accessToken: res.data.accessToken,
-            isAuthenticated: true,
-        });
+        set({ isLoading: true });
+        try {
+            const res = await api.post<AuthResponse>('/auth/register', {
+                displayName,
+                email,
+                password,
+            });
+            setAccessToken(res.data.accessToken);
+            set({
+                user: res.data.user,
+                accessToken: res.data.accessToken,
+                isAuthenticated: true,
+            });
+        } catch (error) {
+            log.error('Error in register', { data: error });
+            set({ isAuthenticated: false });
+        } finally {
+            set({ isLoading: false });
+        }
     },
     login: async (email, password) => {
-        const res = await api.post('/auth/login', { email, password });
-        setAccessToken(res.data.accessToken);
-        set({
-            user: res.data.user,
-            accessToken: res.data.accessToken,
-            isAuthenticated: true,
-        });
+        set({ isLoading: true });
+        try {
+            const res = await api.post('/auth/login', { email, password });
+            setAccessToken(res.data.accessToken);
+            set({
+                user: res.data.user,
+                accessToken: res.data.accessToken,
+                isAuthenticated: true,
+            });
+        } catch (error) {
+            set({ isAuthenticated: false });
+            log.error('Error in login', { data: error });
+        } finally {
+            set({ isLoading: false });
+        }
     },
     refresh: async () => {
+        set({ isLoading: true });
         try {
             const res = await api.post('/auth/refresh');
             setAccessToken(res.data.accessToken);
@@ -53,7 +71,7 @@ export const useAuthStore = create<AuthState>((set) => ({
                 isAuthenticated: true,
             });
         } catch (error) {
-            //refresh failed useer stays logged out
+            // refresh failed; user stays logged out
             setAccessToken(null);
             set({
                 user: null,
@@ -61,6 +79,8 @@ export const useAuthStore = create<AuthState>((set) => ({
                 isAuthenticated: false,
             });
             log.error('Error in refreshing', { data: error });
+        } finally {
+            set({ isLoading: false });
         }
     },
     logout: async () => {

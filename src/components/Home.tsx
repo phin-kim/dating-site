@@ -1,4 +1,5 @@
 const Home = () => {
+    console.log('This is the home page');
     return (
         <>
             <h1 className="text-4xl font-bold text-black">
