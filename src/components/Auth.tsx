@@ -11,7 +11,7 @@ import {
     Calendar,
     Shield,
 } from 'lucide-react';
-import type { FormMode } from '../../frontendTypes/Auth';
+import type { FormMode } from '../types/Auth';
 import { useAuthStore } from '../Store/authStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
