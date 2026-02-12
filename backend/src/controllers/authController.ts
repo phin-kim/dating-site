@@ -8,6 +8,8 @@ import {
     validateLoginInput,
     validateRegisterInput,
 } from '../config/authValidator.js';
+import createLogger from '../utils/logger.js';
+const logger = createLogger('authController');
 export async function register(req: Request, res: Response) {
     //validate input
     const { displayName, email, password } = validateRegisterInput(req.body);
@@ -65,17 +67,25 @@ export async function login(req: Request, res: Response) {
     const { email, password } = validateLoginInput(req.body);
     const user = await UserModel.findOne({ email }).select('+passwordHash');
     if (!user || !user.passwordHash) {
+        logger.warn('No user found for email', {
+            context: 'login',
+            data: { email },
+        });
         throw AppError.unauthorized('Invalid email or password');
     }
     //prevent local login from OAUth-onlu user nb to change this later on toallow both
     if (user.provider !== 'local') {
         throw AppError.badRequest(
-            'This account uses Google sign-in.Please loginwith Google'
+            'This account uses Google sign-in.Please login with Google'
         );
     }
     //compare passwords
     const isMatch = await comparePasswords(password, user.passwordHash);
     if (!isMatch) {
+        logger.warn('Password mismatch for email', {
+            context: 'login',
+            data: { email },
+        });
         throw AppError.unauthorized('Invalid email or password');
     }
     //issue jwt
@@ -86,6 +96,10 @@ export async function login(req: Request, res: Response) {
     const refreshToken = signRefreshToken({
         uid: user._id.toString(),
         role: user.role,
+    });
+    logger.info('refreshtoken', {
+        context: 'login',
+        data: { refreshToken },
     });
     const refreshTokenHash = hashToken(refreshToken);
     user.refreshTokens.push({

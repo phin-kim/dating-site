@@ -19,8 +19,8 @@ function App() {
             <BrowserRouter>
                 <Routes>
                     <Route element={<Navbar />} />
+                    <Route path="/" element={<LandingPage />} />
                     <Route element={<ProtectedRoutes />}>
-                        <Route path="/" element={<LandingPage />} />
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/profile" element={<Profile />} />
                     </Route>
