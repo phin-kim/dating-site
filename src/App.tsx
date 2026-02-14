@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useAuthStore } from './Store/authStore';
 import LandingPage from './components/Home';
 import Dashboard from './components/Dashboard';
-import ProtectedRoutes from './components/ProtectedRoutes';
+//import ProtectedRoutes from './components/ProtectedRoutes';
 import Navbar from './components/Navbar';
 import Profile from './components/Profile';
 function App() {
@@ -20,10 +20,8 @@ function App() {
                 <Routes>
                     <Route element={<Navbar />} />
                     <Route path="/" element={<LandingPage />} />
-                    <Route element={<ProtectedRoutes />}>
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/profile" element={<Profile />} />
-                    </Route>
                     <Route path="/login" element={<LoveAuthForm />} />
                 </Routes>
             </BrowserRouter>
