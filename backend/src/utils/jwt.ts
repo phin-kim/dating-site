@@ -1,6 +1,6 @@
 import jwt  from "jsonwebtoken";
 import crypto from "node:crypto"
-import type { JWTTokenPayload } from "../../backendTypes/authenticate";
+import type { JWTTokenPayload } from "../../types/authenticate";
 import "dotenv/config"
 const accessSecret = process.env.JWT_ACCESS_SECRET
 const refreshSecret = process.env.JWT_REFRESH_SECRET

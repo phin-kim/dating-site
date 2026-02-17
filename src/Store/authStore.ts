@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import api, { setAccessToken } from '../Api/api';
 import createClientLogger from '../utils/clientLoger';
-import type { User, AuthResponse } from '../../frontendTypes/Auth';
+import type { User, AuthResponse } from '../types/Auth';
 const log = createClientLogger('AUTH STORE');
 type AuthState = {
     user: User | null;
