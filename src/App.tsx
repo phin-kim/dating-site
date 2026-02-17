@@ -7,6 +7,8 @@ import Dashboard from './components/Dashboard';
 //import ProtectedRoutes from './components/ProtectedRoutes';
 import Navbar from './components/Navbar';
 import Profile from './components/Profile';
+import ExploreView from './components/ExploreView';
+import ProtectedRoutes from './components/ProtectedRoutes';
 function App() {
     useEffect(() => {
         const tryRefresh = async () => {
@@ -20,8 +22,11 @@ function App() {
                 <Routes>
                     <Route element={<Navbar />} />
                     <Route path="/" element={<LandingPage />} />
+                    <Route element={<ProtectedRoutes />}>
                         <Route path="/dashboard" element={<Dashboard />} />
+                        <Route path="/explore" element={<ExploreView />} />
                         <Route path="/profile" element={<Profile />} />
+                    </Route>
                     <Route path="/login" element={<LoveAuthForm />} />
                 </Routes>
             </BrowserRouter>

@@ -1,5 +1,3 @@
-
-
 import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
@@ -45,4 +43,3 @@ const startServer = async () => {
 };
 startServer();
 app.use(errorHandler);
-

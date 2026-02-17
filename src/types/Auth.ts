@@ -1,5 +1,3 @@
-
-
 export type FormMode = 'login' | 'signup';
 
 export interface SignupData {
@@ -27,4 +25,3 @@ export type AuthResponse = {
     accessToken: string;
     user: User;
 };
-

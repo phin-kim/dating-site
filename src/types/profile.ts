@@ -16,14 +16,12 @@ export interface Message {
     text: string;
     timestamp: Date;
 }
-
 export interface Chat {
     id: string;
     user: UserProfile;
     lastMessage: string;
     unreadCount: number;
 }
-
 /*export enum AppView {
     LANDING = 'LANDING',
     DASHBOARD = 'DASHBOARD',

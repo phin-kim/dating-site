@@ -18,13 +18,13 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ user, onLike, onPass }) => {
 
     const handleGetIcebreaker = async () => {
         setIsLoadingIcebreaker(true);
-        const text = 'ai willbe intergrated later on in the backend';
+        const text = 'AI willbe intergrated later on in the backend';
         setIcebreaker(text);
         setIsLoadingIcebreaker(false);
     };
 
     return (
-        <div className="group relative w-full max-w-md overflow-hidden rounded-4xl border border-gray-100 bg-white shadow-2xl">
+        <div className="relative w-full max-w-md overflow-hidden bg-white border border-gray-100 shadow-2xl group rounded-4xl">
             <div className="relative h-25">
                 <img
                     src={user.images[0]}

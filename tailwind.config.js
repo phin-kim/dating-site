@@ -8,7 +8,6 @@ export default {
     ],
     theme: {
         extend: {
-            
             fontFamily: {
                 sans: [
                     'system-ui',
@@ -18,10 +17,9 @@ export default {
                     'sans-serif',
                 ],
                 poppins: ['Poppins', 'sans-serif'],
-                nunito:["Nunito","sans-serif"],
-                dancing:["var(--font-display)"]
+                nunito: ['Nunito', 'sans-serif'],
+                dancing: ['var(--font-display)'],
             },
-            
         },
     },
     plugins: [forms],

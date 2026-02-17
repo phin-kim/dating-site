@@ -1,4 +1,4 @@
-@import "tailwindcss";
-:root{
-  --font-display: "Dancing Script", "cursive"
+@import 'tailwindcss';
+:root {
+    --font-display: 'Dancing Script', 'cursive';
 }

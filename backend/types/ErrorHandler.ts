@@ -1,5 +1,5 @@
-export interface ErrorType{
-    statusCode:number
-    message:string
-    type:string
+export interface ErrorType {
+    statusCode: number;
+    message: string;
+    type: string;
 }

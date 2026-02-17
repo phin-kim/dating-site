@@ -1,4 +1,3 @@
-
 import type { RequestHandler } from 'express';
 import AppError from './AppError.js';
 import jwt, { JwtPayload } from 'jsonwebtoken';
@@ -104,4 +103,3 @@ const authenticate: RequestHandler = async (req, _res, next) => {
     }
 };
 export default authenticate;
-

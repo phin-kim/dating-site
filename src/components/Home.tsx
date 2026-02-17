@@ -4,6 +4,7 @@ import { PRIMARY_GRADIENT } from '../library/constants';
 import { FaHeartPulse, FaComments } from 'react-icons/fa6';
 import { IoShieldCheckmark } from 'react-icons/io5';
 import Navbar from './Navbar';
+import { useAuthStore } from '../Store/authStore';
 const FeatureCard: React.FC<{
     icon: React.ReactNode;
     title: string;
@@ -22,7 +23,7 @@ const FeatureCard: React.FC<{
 
 const LandingPage = () => {
     const navigate = useNavigate();
-
+    const isAuth = useAuthStore((state) => state.isAuthenticated);
     return (
         <div className="pt-20">
             <Navbar />
@@ -47,12 +48,14 @@ const LandingPage = () => {
                             >
                                 Join Now
                             </button>
-                            {/*<button
-                                onClick={() => navigate('/dashboard')}
-                                className="px-10 py-5 text-lg font-bold text-gray-700 transition-all bg-white border-2 border-gray-100 rounded-full hover:bg-gray-50 active:scale-95"
-                            >
-                                Take a Tour
-                            </button>*/}
+                            {isAuth && (
+                                <button
+                                    onClick={() => navigate('/dashboard')}
+                                    className="px-10 py-5 text-lg font-bold text-gray-700 transition-all bg-white border-2 border-gray-100 rounded-full hover:bg-gray-50 active:scale-95"
+                                >
+                                    Get Connected
+                                </button>
+                            )}
                         </div>
 
                         <div className="flex items-center justify-center gap-4 mt-12 lg:justify-start">
