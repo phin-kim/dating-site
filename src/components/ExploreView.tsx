@@ -1,16 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import type { UserProfile } from '../types/profile';
 import { MOCK_USERS, PRIMARY_GRADIENT } from '../library/constants';
 import { FaSliders, FaHeart } from 'react-icons/fa6';
 import { FaTimes } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
-import useConnection from '../Store/matchStore';
-
+import useMatches from '../Store/matchStore';
+import createClientLogger from '../utils/clientLoger';
+import { boolean } from 'zod';
+const log = createClientLogger('Explore view');
 const ExploreView: React.FC = () => {
-    const { addMatch } = useConnection((state) => ({
-        addMatch: state.addMatch,
-    }));
+    const navigate = useNavigate();
+    const addMatch = useMatches((state) => state.addMatch);
+    const matches = useMatches((state) => state.matches);
+    const [likedUsers, setLikedUsers] = useState<{ [id: string]: boolean }>({});
     const handleLike = (user: UserProfile) => {
+        setLikedUsers((prev) => ({ ...prev, [user.id]: true }));
+        log.info(
+            ` has matches to ${user.name}: current matches are: ${matches}`
+        );
         addMatch(user);
     };
 
@@ -66,6 +74,9 @@ const ExploreView: React.FC = () => {
                                     <p className="mb-3 text-sm text-gray-200">
                                         {user.location}
                                     </p>
+                                    <p className="mb-4 text-sm text-gray-200 line-clamp-2">
+                                        {user.bio}
+                                    </p>
                                     <div className="flex flex-wrap gap-1.5">
                                         {user.interests
                                             .slice(0, 3)
@@ -83,17 +94,26 @@ const ExploreView: React.FC = () => {
 
                             <div className="flex gap-3 p-4 bg-white">
                                 <button
-                                    onClick={() => handlePass}
+                                    onClick={() => handlePass(user)}
                                     className="flex items-center justify-center flex-1 py-3 text-gray-400 transition-all rounded-2xl bg-gray-50 hover:bg-gray-100 hover:text-gray-600"
                                 >
                                     <FaTimes />
                                 </button>
-                                <button
-                                    onClick={() => handleLike}
-                                    className={`flex-3 rounded-2xl py-3 ${PRIMARY_GRADIENT} flex items-center justify-center gap-2 font-bold text-white shadow-lg shadow-rose-100 transition-all hover:scale-[1.02]`}
-                                >
-                                    <FaHeart /> Connect
-                                </button>
+                                {likedUsers[user.id] ? (
+                                    <button
+                                        onClick={() => navigate('/chat')}
+                                        className={`flex-3 rounded-2xl py-3 ${PRIMARY_GRADIENT} flex items-center justify-center gap-2 font-bold text-white shadow-lg shadow-rose-100 transition-all hover:scale-[1.02]`}
+                                    >
+                                        {`Chat with ${user.name}`}
+                                    </button>
+                                ) : (
+                                    <button
+                                        onClick={() => handleLike(user)}
+                                        className={`flex-3 rounded-2xl py-3 ${PRIMARY_GRADIENT} flex items-center justify-center gap-2 font-bold text-white shadow-lg shadow-rose-100 transition-all hover:scale-[1.02]`}
+                                    >
+                                        <FaHeart /> Connect
+                                    </button>
+                                )}
                             </div>
                         </div>
                     ))}

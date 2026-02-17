@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import Profile from './components/Profile';
 import ExploreView from './components/ExploreView';
 import ProtectedRoutes from './components/ProtectedRoutes';
+import ChatArea from './components/ChatArea';
 function App() {
     useEffect(() => {
         const tryRefresh = async () => {
@@ -26,6 +27,7 @@ function App() {
                         <Route path="/dashboard" element={<Dashboard />} />
                         <Route path="/explore" element={<ExploreView />} />
                         <Route path="/profile" element={<Profile />} />
+                        <Route path = "/chat" element={<ChatArea/>}/>
                     </Route>
                     <Route path="/login" element={<LoveAuthForm />} />
                 </Routes>

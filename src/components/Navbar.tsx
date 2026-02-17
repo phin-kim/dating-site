@@ -1,6 +1,6 @@
 import { PRIMARY_GRADIENT } from '../library/constants';
 import { useAuthStore } from '../Store/authStore';
-import { FaCommentDots, FaGrinHearts } from 'react-icons/fa';
+import { FaCommentDots, FaHome } from 'react-icons/fa';
 import { FaCompass, FaHeart } from 'react-icons/fa6';
 
 import { useNavigate } from 'react-router';
@@ -9,23 +9,30 @@ const Navbar = () => {
     const isAuth = useAuthStore((state) => state.isAuthenticated);
 
     return (
-        <nav className="fixed top-0 right-0 left-0 z-50 border-b border-gray-200 bg-white/80 px-4 py-3 backdrop-blur-md">
-            <div className="mx-auto flex max-w-7xl items-center justify-between">
-                <div className="flex cursor-pointer items-center gap-2">
+        <nav className="fixed top-0 left-0 right-0 z-50 px-4 py-3 border-b border-gray-200 bg-white/80 backdrop-blur-md">
+            <div className="flex items-center justify-between mx-auto max-w-7xl">
+                <div className="flex items-center gap-2 cursor-pointer">
                     <div
                         className={`h-10 w-10 rounded-xl ${PRIMARY_GRADIENT} flex items-center justify-center text-xl text-white shadow-lg shadow-rose-200`}
                     >
                         <FaHeart className="text-lg text-white" />
                     </div>
-                    <span className="bg-linear-to-r from-rose-600 to-orange-500 bg-clip-text font-serif text-2xl font-bold tracking-tight text-transparent">
+                    <span className="font-serif text-2xl font-bold tracking-tight text-transparent bg-linear-to-r from-rose-600 to-orange-500 bg-clip-text">
                         Love Connect
                     </span>
                 </div>
 
-                <div className="hidden items-center gap-8 md:flex">
+                <div className="items-center hidden gap-8 md:flex">
                     <>
                         {isAuth ? (
                             <div className="flex items-center gap-6">
+                                <button
+                                    onClick={() => navigate('/')}
+                                    className={`'text-gray-500 hover:text-rose-500' flex items-center gap-2 transition-all`}
+                                >
+                                    <FaHome className="text-lg text-gray-600" />{' '}
+                                    Home
+                                </button>
                                 <button
                                     onClick={() => navigate('/explore')}
                                     className={`'text-gray-500 hover:text-rose-500' flex items-center gap-2 transition-all`}
@@ -34,17 +41,18 @@ const Navbar = () => {
                                     Discover
                                 </button>
                                 <button
+                                    onClick={() => navigate('/chat')}
                                     className={`'text-gray-500 hover:text-rose-500' flex items-center gap-2 transition-all`}
                                 >
                                     <FaCommentDots className="text-lg text-gray-600" />
                                     Chats
                                 </button>
-                                <button
+                                {/*<button
                                     className={`'text-gray-500 hover:text-rose-500' flex items-center gap-2 transition-all`}
                                 >
                                     <FaGrinHearts className="text-lg text-gray-600" />
                                     Matches
-                                </button>
+                                </button>*/}
                                 <button
                                     onClick={() => navigate('/profile')}
                                     className={`p-0.5' h-10 w-10 rounded-full border-2 border-rose-500`}
@@ -52,7 +60,7 @@ const Navbar = () => {
                                     <img
                                         src="https://picsum.photos/seed/me/100"
                                         alt="Profile"
-                                        className="h-full w-full rounded-full object-cover"
+                                        className="object-cover w-full h-full rounded-full"
                                     />
                                 </button>
                             </div>

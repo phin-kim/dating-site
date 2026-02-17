@@ -42,18 +42,20 @@ const LandingPage = () => {
                             connections that last.
                         </p>
                         <div className="flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
-                            <button
-                                onClick={() => navigate('/login')}
-                                className={`rounded-full px-10 py-5 text-lg font-bold text-white shadow-2xl transition-all hover:scale-105 hover:shadow-rose-300 active:scale-95 ${PRIMARY_GRADIENT}`}
-                            >
-                                Join Now
-                            </button>
+                            {!isAuth && (
+                                <button
+                                    onClick={() => navigate('/login')}
+                                    className={`rounded-full px-10 py-5 text-lg font-bold text-white shadow-2xl transition-all hover:scale-105 hover:shadow-rose-300 active:scale-95 ${PRIMARY_GRADIENT}`}
+                                >
+                                    Join Now
+                                </button>
+                            )}
                             {isAuth && (
                                 <button
-                                    onClick={() => navigate('/dashboard')}
+                                    onClick={() => navigate('/explore')}
                                     className="px-10 py-5 text-lg font-bold text-gray-700 transition-all bg-white border-2 border-gray-100 rounded-full hover:bg-gray-50 active:scale-95"
                                 >
-                                    Get Connected
+                                    Discover Connections
                                 </button>
                             )}
                         </div>
